@@ -8,6 +8,13 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class HomeComponent implements OnInit {
   productList: any[] = [];
+  cartObj: any = {
+    CartId: 0,
+    CustId: 1,
+    ProductId: 0,
+    Quantity: 0,
+    AddedDate: '2023-04-27T07:12:40.926Z',
+  };
 
   constructor(private productService: ProductService) {}
 
@@ -20,6 +27,17 @@ export class HomeComponent implements OnInit {
     debugger;
     this.productService.getAllProducts().subscribe((results: any) => {
       this.productList = results.data;
+    });
+  }
+
+  addItemToCart(productId: number) {
+    debugger;
+    this.cartObj.ProductId = productId;
+    this.productService.addToCart(this.cartObj).subscribe((results: any) => {
+      if (results.result) {
+        alert('Product Added to Cart successfully');
+        this.productService.cartAddedSubject.next(true);
+      }
     });
   }
 }
