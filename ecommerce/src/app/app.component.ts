@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from './services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent implements OnInit {
   cartProducts: any[] = [];
   subTotal = 0;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private router: Router) {
     this.productService.cartAddedSubject.subscribe((res) => {
       this.loadCart();
     });
@@ -28,5 +29,9 @@ export class AppComponent implements OnInit {
         this.subTotal += item.productPrice;
       });
     });
+  }
+
+  redirectToSale() {
+    this.router.navigateByUrl('/sale');
   }
 }
